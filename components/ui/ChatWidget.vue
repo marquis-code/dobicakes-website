@@ -295,7 +295,7 @@ const initiateChat = () => {
  if (!userForm.value.name || !userForm.value.email) return;
  roomId.value = `room_${userForm.value.email.replace(/[^a-zA-Z0-9]/g, '_')}`;
  
- socket = io('http://localhost:4000'); // Ensure this matches your backend base
+ socket = io('https://dobicakes-backend.onrender.com'); // Ensure this matches your backend base
  
  socket.on('connect', () => {
  socket.emit('joinRoom', roomId.value);
