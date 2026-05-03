@@ -19,7 +19,7 @@
         }"
       >
         <div class="flex-1 space-y-1">
-          <h4 class="text-[10px] font-bold  tracking-widest text-brand-charcoal">{{ toast.title }}</h4>
+          <h4 class="text-sm font-bold  tracking-widest text-brand-charcoal">{{ toast.title }}</h4>
           <p class="text-[11px] text-brand-muted font-light">{{ toast.message }}</p>
         </div>
         <button @click="removeToast(toast.id)" class="text-brand-muted hover:text-brand-charcoal transition-colors">

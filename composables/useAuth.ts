@@ -38,12 +38,20 @@ export const useAuth = () => {
     token.value = null;
   };
 
+  const forgotPassword = async (email: string) => {
+    return await fetchApi('/auth/forgot-password', {
+      method: 'POST',
+      body: { email },
+    });
+  };
+
   return {
     user,
     token,
     login,
     register,
     firebaseLogin,
+    forgotPassword,
     logout,
     isAuthenticated: computed(() => !!user.value),
   };

@@ -24,10 +24,10 @@
             <LucideInfo v-else class="h-5 w-5 text-brand-gold" />
           </div>
           <div class="flex-1 pt-0.5">
-            <p class="text-[11px] font-bold tracking-widest text-brand-charcoal uppercase">
+            <p class="text-[11px] font-bold tracking-widest text-brand-charcoal ">
               {{ toast.type }}
             </p>
-            <p class="mt-1 text-[10px] text-brand-muted font-light leading-relaxed">
+            <p class="mt-1 text-sm text-brand-muted font-light leading-relaxed">
               {{ toast.message }}
             </p>
           </div>

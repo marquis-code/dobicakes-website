@@ -9,7 +9,7 @@ export const useFetchProducts = () => {
         loading.value = true
         try {
             const res = await product_api.getAll(params)
-            products.value = res.data
+            products.value = res.data.data || res.data
         } catch (err) {
             console.error('Fetch products error:', err)
         } finally {

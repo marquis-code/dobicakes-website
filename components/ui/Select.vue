@@ -1,6 +1,6 @@
 <template>
   <Listbox v-model="selected" :disabled="disabled" as="div" class="relative">
-    <ListboxLabel v-if="label" class="block text-[10px] font-bold tracking-widest text-brand-charcoal uppercase mb-1.5">
+    <ListboxLabel v-if="label" class="block text-sm font-bold tracking-widest text-brand-charcoal  mb-1.5">
       {{ label }}
     </ListboxLabel>
     <div class="relative">
@@ -34,7 +34,7 @@
                 'relative cursor-default select-none py-3 pl-10 pr-4 transition-colors font-light',
               ]"
             >
-              <span :class="[isSelected ? 'font-bold' : 'font-normal', 'block truncate uppercase tracking-widest text-[10px]']">
+              <span :class="[isSelected ? 'font-bold' : 'font-normal', 'block truncate  tracking-widest text-sm']">
                 {{ typeof option === 'string' ? option : option.label }}
               </span>
               <span

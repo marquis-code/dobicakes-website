@@ -19,5 +19,9 @@ export const useApiFactory = () => {
     }
   };
 
-  return { fetchApi };
+  const postApi = (url: string, body: any, options: any = {}) => fetchApi(url, { ...options, method: 'POST', body });
+  const patchApi = (url: string, body: any, options: any = {}) => fetchApi(url, { ...options, method: 'PATCH', body });
+  const deleteApi = (url: string, options: any = {}) => fetchApi(url, { ...options, method: 'DELETE' });
+
+  return { fetchApi, postApi, patchApi, deleteApi };
 };
