@@ -16,7 +16,7 @@
  <!-- Main Container -->
  <div v-if="isOpen" 
  :class="[
- 'bg-white shadow-2xl border border-slate-100 flex flex-col overflow-hidden animate-slide-up origin-bottom-right transition-all duration-500 z-[110]',
+ 'bg-white shadow-2xl border border-slate-100 flex flex-col overflow-visible animate-slide-up origin-bottom-right transition-all duration-500 z-[110]',
  isMobile 
    ? (activeChannel ? 'fixed inset-0 w-full h-full rounded-none' : 'fixed bottom-4 left-4 right-4 w-auto h-auto max-h-[85vh] rounded-[2.5rem]') 
    : 'w-[380px] h-[600px] rounded-3xl'
@@ -40,7 +40,7 @@
  <LucideMessageSquare :size="18" class="text-brand-gold" />
  </div>
  <div class="text-left">
- <p class="text-[13px] md:text-sm font-bold tracking-tight">Live Concierge</p>
+ <p class="text-[13px] md:text-sm font-bold tracking-tight">Chat with an Artisan</p>
  <p class="text-[11px] md:text-sm opacity-60">Chat with our artisans in real-time</p>
  </div>
  </button>
@@ -70,7 +70,8 @@
  <!-- Live Chat Channel -->
  <div v-else class="flex flex-col h-full relative">
  <!-- Header -->
- <div class="bg-brand-charcoal p-6 text-white flex justify-between items-center shrink-0">
+ <div class="bg-brand-charcoal p-6 text-white flex justify-between items-center shrink-0"
+      :class="[isMobile ? 'rounded-none' : 'rounded-t-3xl']">
  <div class="flex items-center gap-4">
  <button @click="activeChannel = null" class="p-2 -ml-2 hover:bg-white/10 rounded-full transition-colors">
  <LucideChevronLeft :size="22" />
@@ -80,8 +81,8 @@
  <div class="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-emerald-400 border-2 border-brand-charcoal rounded-full"></div>
  </div>
  <div>
- <h4 class="text-sm font-bold tracking-widest ">Live Concierge</h4>
- <p class="text-[9px] text-emerald-400 font-bold tracking-widest animate-pulse">Artisan Online</p>
+ <h4 class="text-sm font-bold tracking-widest ">Chat with an Artisan</h4>
+ <p class="text-[9px] text-emerald-400 font-bold tracking-widest animate-pulse">Online & Ready to Help</p>
  </div>
  </div>
  <button @click="isOpen = false" class="p-2 hover:bg-white/10 rounded-full transition-colors">
@@ -132,39 +133,40 @@
  </div>
  </div>
 
- <!-- Pending Media Preview -->
- <div v-if="pendingImage" class="absolute bottom-[80px] left-4 right-4 bg-white/95 backdrop-blur-md p-4 rounded-3xl border border-brand-gold/30 shadow-2xl animate-slide-up z-20">
- <div class="relative aspect-video rounded-2xl overflow-hidden mb-4">
- <img :src="pendingImage" class="w-full h-full object-cover" />
- <button @click="pendingImage = null; pendingFile = null" class="absolute top-2 right-2 p-1.5 bg-slate-900/50 text-white rounded-full hover:bg-slate-900 transition-colors">
- <LucideX :size="16" />
- </button>
- <div v-if="isUploading" class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center">
- <div class="w-12 h-12 border-4 border-brand-gold border-t-transparent rounded-full animate-spin"></div>
- </div>
- </div>
- <div class="flex gap-2">
- <input v-model="newMessage" type="text" placeholder="Add a caption..." class="flex-grow bg-slate-50 border-none px-5 py-3 rounded-xl text-xs outline-none focus:bg-white transition-all" />
- <button @click="uploadAndSend" :disabled="isUploading" class="bg-brand-gold text-white p-3 rounded-xl shadow-lg hover:scale-105 transition-all">
- <LucideSend :size="18" />
- </button>
- </div>
- </div>
+  <!-- Pending Media Preview -->
+  <div v-if="pendingImage" class="absolute bottom-[80px] left-4 right-4 bg-white/95 backdrop-blur-md p-4 rounded-3xl border border-brand-gold/30 shadow-2xl animate-slide-up z-20">
+  <div class="relative aspect-video rounded-2xl overflow-hidden mb-4">
+  <img :src="pendingImage" class="w-full h-full object-cover" />
+  <button @click="pendingImage = null; pendingFile = null" class="absolute top-2 right-2 p-1.5 bg-slate-900/50 text-white rounded-full hover:bg-slate-900 transition-colors">
+  <LucideX :size="16" />
+  </button>
+  <div v-if="isUploading" class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center">
+  <div class="w-12 h-12 border-4 border-brand-gold border-t-transparent rounded-full animate-spin"></div>
+  </div>
+  </div>
+  <div class="flex gap-2 items-center">
+  <input v-model="newMessage" type="text" placeholder="Add a caption..." class="flex-1 min-w-0 bg-slate-50 border-none px-4 py-3 rounded-xl text-xs outline-none focus:bg-white transition-all" />
+  <button @click="uploadAndSend" :disabled="isUploading" class="shrink-0 bg-brand-gold text-white p-3 rounded-xl shadow-lg hover:scale-105 transition-all flex items-center justify-center">
+  <LucideSend :size="18" />
+  </button>
+  </div>
+  </div>
 
  <!-- Interaction Area -->
- <div class="p-4 bg-white border-t border-slate-100 flex flex-col gap-3 shrink-0">
+ <div class="p-4 bg-white border-t border-slate-100 flex flex-col gap-3 shrink-0 relative z-10"
+      :class="[isMobile ? 'rounded-none' : 'rounded-b-3xl']">
  <!-- Emoji Strip (Mobile Friendly) -->
  <div v-if="showEmojiPicker" class="flex gap-4 px-2 py-2 overflow-x-auto no-scrollbar animate-fade-in border-b border-slate-50">
  <button v-for="e in popularEmojis" :key="e" @click="newMessage += e; showEmojiPicker = false" class="text-xl hover:scale-125 transition-transform">{{ e }}</button>
  </div>
 
- <div class="flex gap-3 items-center">
- <div class="flex gap-2 shrink-0">
- <button @click="showEmojiPicker = !showEmojiPicker" :class="showEmojiPicker ? 'text-brand-gold bg-brand-gold/10' : 'text-slate-400 hover:text-brand-gold'" class="p-2.5 rounded-xl transition-all">
- <LucideSmile :size="22" />
+ <div class="flex gap-2 items-center">
+ <div class="flex gap-1 shrink-0">
+ <button @click="showEmojiPicker = !showEmojiPicker" :class="showEmojiPicker ? 'text-brand-gold bg-brand-gold/10' : 'text-slate-400 hover:text-brand-gold'" class="p-2 rounded-xl transition-all">
+ <LucideSmile :size="20" />
  </button>
- <button @click="$refs.fileInput.click()" class="text-slate-400 hover:text-brand-gold p-2.5 rounded-xl transition-all">
- <LucideImage :size="22" />
+ <button @click="$refs.fileInput.click()" class="text-slate-400 hover:text-brand-gold p-2 rounded-xl transition-all">
+ <LucideImage :size="20" />
  </button>
  <input type="file" ref="fileInput" hidden accept="image/*" @change="handleFileSelect" />
  </div>
@@ -173,10 +175,10 @@
  @keyup.enter="sendMessage" 
  type="text" 
  placeholder="Express your needs..." 
- class="flex-grow bg-slate-50 border-none px-6 py-3.5 rounded-2xl outline-none text-sm focus:bg-white transition-all shadow-inner" 
+ class="flex-1 min-w-0 bg-slate-50 border-none px-4 py-3 rounded-2xl outline-none text-sm focus:bg-white transition-all shadow-inner" 
  />
- <button @click="sendMessage" class="bg-brand-gold text-white p-4 rounded-2xl hover:scale-110 transition-transform shadow-xl shadow-brand-gold/20 active:scale-95">
- <LucideSend :size="20" />
+ <button @click="sendMessage" class="shrink-0 bg-brand-gold text-white p-3.5 rounded-2xl hover:scale-105 transition-transform shadow-lg shadow-brand-gold/20 active:scale-95 flex items-center justify-center">
+ <LucideSend :size="18" />
  </button>
  </div>
  </div>
@@ -354,6 +356,25 @@ onMounted(() => {
  }
  
  setTimeout(() => { showTooltip.value = false; }, 15000);
+});
+
+watch(isOpen, (newVal) => {
+  if (typeof document !== 'undefined') {
+    if (newVal && isMobile.value) {
+      document.body.style.overflow = 'hidden';
+      document.body.style.height = '100vh';
+    } else {
+      document.body.style.overflow = '';
+      document.body.style.height = '';
+    }
+  }
+});
+
+onUnmounted(() => {
+  if (typeof document !== 'undefined') {
+    document.body.style.overflow = '';
+    document.body.style.height = '';
+  }
 });
 </script>
 

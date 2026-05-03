@@ -1,9 +1,9 @@
 <template>
   <div class="fixed bottom-28 right-8 z-[100] flex flex-col items-end gap-4">
     <!-- Chat Window -->
-    <div v-if="isOpen" class="w-[350px] h-[500px] bg-brand-charcoal rounded-lg shadow-2xl border border-white/10 flex flex-col overflow-hidden animate-slide-up origin-bottom-right text-white">
+    <div v-if="isOpen" class="w-[350px] h-[500px] bg-brand-charcoal rounded-lg shadow-2xl border border-white/10 flex flex-col overflow-visible animate-slide-up origin-bottom-right text-white">
       <!-- Header -->
-      <div class="bg-brand-gold p-6 text-white flex justify-between items-center shrink-0">
+      <div class="bg-brand-gold p-6 text-white flex justify-between items-center shrink-0 rounded-t-lg">
         <div class="flex items-center gap-3">
           <LucideSparkles :size="20" />
           <div>
@@ -38,9 +38,9 @@
       </div>
 
       <!-- Footer -->
-      <div class="p-4 border-t border-white/10 flex gap-2 shrink-0">
-        <input v-model="userInput" @keyup.enter="handleSend" type="text" placeholder="Ask about flavors, recipes..." class="flex-grow bg-white/5 border-none px-4 py-3 rounded-sm outline-none text-xs focus:bg-white/10 transition-all text-white" />
-        <button @click="handleSend" class="bg-brand-gold text-brand-charcoal p-3 rounded-sm hover:scale-110 transition-transform">
+      <div class="p-4 border-t border-white/10 flex gap-2 shrink-0 items-center rounded-b-lg bg-brand-charcoal">
+        <input v-model="userInput" @keyup.enter="handleSend" type="text" placeholder="Ask about flavors, recipes..." class="flex-1 min-w-0 bg-white/5 border-none px-4 py-3 rounded-sm outline-none text-xs focus:bg-white/10 transition-all text-white" />
+        <button @click="handleSend" class="shrink-0 bg-brand-gold text-brand-charcoal p-3 rounded-sm hover:scale-105 transition-transform flex items-center justify-center">
           <LucideSend :size="16" />
         </button>
       </div>
