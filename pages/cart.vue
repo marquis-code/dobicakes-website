@@ -2,7 +2,7 @@
  <div class="section-container py-24 min-h-screen bg-brand-cream/10">
  <div class="max-w-6xl mx-auto space-y-16">
  <div class="text-center space-y-2">
- <h1 class="text-4xl text-brand-charcoal ">Your Shopping Bag</h1>
+ <h1 class="text-3xl text-brand-charcoal ">Your Shopping Bag</h1>
  <div class="w-20 h-[1px] bg-brand-gold mx-auto"></div>
  </div>
 
@@ -44,11 +44,11 @@
  <!-- Customization Details -->
  <div v-if="item.customization" class="bg-brand-cream/30 p-5 space-y-3 text-[11px] tracking-widest text-brand-muted border-l-4 border-brand-gold/30 rounded-r-2xl shadow-sm">
  <div class="flex justify-between border-b border-brand-gold/5 pb-2">
- <span class="opacity-60 font-bold text-[9px]">Flavor</span>
+ <span class="opacity-60 font-bold text-xs">Flavor</span>
  <span class="text-brand-charcoal font-bold">{{ item.customization.flavor }}</span>
  </div>
  <div class="flex justify-between border-b border-brand-gold/5 pb-2">
- <span class="opacity-60 font-bold text-[9px]">Size</span>
+ <span class="opacity-60 font-bold text-xs">Size</span>
  <span class="text-brand-charcoal font-bold">{{ item.customization.size }}</span>
  </div>
  <div v-if="item.customization.customMessage" class="pt-2 italic text-brand-charcoal font-medium text-xs">

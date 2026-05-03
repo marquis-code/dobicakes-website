@@ -62,14 +62,14 @@
  <input type="radio" value="PAYSTACK" v-model="form.paymentMethod" class="w-4 h-4 accent-brand-gold mt-1" />
  <div class="space-y-1">
  <p class="text-xs font-bold tracking-widest text-brand-charcoal">Pay with Card</p>
- <p class="text-sm text-brand-muted tracking-widest italic font-light hidden sm:block">Secure checkout via Paystack</p>
+ <p class="text-sm text-brand-muted tracking-widest  font-light hidden sm:block">Secure checkout via Paystack</p>
  </div>
  </label>
  <label class="flex flex-col sm:flex-row items-center sm:items-start gap-4 p-4 border transition-all cursor-pointer rounded-xl text-center sm:text-left" :class="form.paymentMethod === 'BANK_TRANSFER' ? 'border-brand-gold bg-brand-gold/5 shadow-md' : 'border-slate-200 hover:border-brand-gold/50'">
  <input type="radio" value="BANK_TRANSFER" v-model="form.paymentMethod" class="w-4 h-4 accent-brand-gold mt-1" />
  <div class="space-y-1">
  <p class="text-xs font-bold tracking-widest text-brand-charcoal">Direct Bank Transfer</p>
- <p class="text-sm text-brand-muted tracking-widest italic font-light hidden sm:block">Virtual account generated for you</p>
+ <p class="text-sm text-brand-muted tracking-widest  font-light hidden sm:block">Virtual account generated for you</p>
  </div>
  </label>
  </div>
@@ -85,7 +85,7 @@
  <div class="bg-white border border-slate-100 p-6 sm:p-8 space-y-10 sticky top-32 shadow-2xl rounded-3xl">
  <div class="space-y-2">
  <h4 class="text-xs font-bold text-brand-muted">Bag Summary</h4>
- <p class="text-xs italic font-light text-slate-400">Review your artisanal selection</p>
+ <p class="text-xs  font-light text-slate-400">Review your artisanal selection</p>
  </div>
  
  <div class="space-y-6 max-h-[350px] overflow-y-auto pr-2 custom-scrollbar">
@@ -95,12 +95,12 @@
  </div>
  <div class="flex-grow space-y-1">
  <h5 class="text-xs font-bold text-brand-charcoal tracking-widest leading-tight">{{ item.name }}</h5>
- <div v-if="item.customization" class="text-sm text-brand-muted tracking-widest space-y-0.5 italic font-light">
+ <div v-if="item.customization" class="text-sm text-brand-muted tracking-widest space-y-0.5  font-light">
  <p>{{ item.customization.flavor }} • {{ item.customization.size }}</p>
  </div>
  <div class="flex justify-between items-center pt-2">
  <p class="text-[11px] text-brand-muted tracking-widest font-bold">Qty: {{ item.quantity }}</p>
- <p class="text-sm font-bold text-brand-gold italic">₦{{ (item.price * item.quantity).toLocaleString() }}</p>
+ <p class="text-sm font-bold text-brand-gold ">₦{{ (item.price * item.quantity).toLocaleString() }}</p>
  </div>
  </div>
  </div>
@@ -121,7 +121,7 @@
  </div>
  <div class="border-t border-brand-gold/10 pt-8 flex justify-between items-baseline">
  <span class="font-bold text-brand-charcoal text-[11px] tracking-[0.3em]">Total Amount</span>
- <span class="text-3xl text-brand-gold italic font-bold">₦{{ finalTotal.toLocaleString() }}</span>
+ <span class="text-3xl text-brand-gold  font-bold">₦{{ finalTotal.toLocaleString() }}</span>
  </div>
  </div>
 
@@ -131,7 +131,7 @@
  Have a promo code?
  </button>
  <div v-else class="space-y-3 animate-fade-in">
- <label class="text-sm font-bold tracking-widest text-brand-muted italic">Promo Code</label>
+ <label class="text-sm font-bold tracking-widest text-brand-muted ">Promo Code</label>
  <div class="flex gap-3">
  <input v-model="promoCode" :disabled="promoApplied" type="text" placeholder="Enter code" class="flex-grow py-2 px-4 rounded-xl border border-slate-200 focus:border-brand-gold outline-none" />
  <button @click="applyPromo" :disabled="promoApplied || promoLoading" class="text-xs font-bold tracking-widest text-white bg-brand-gold hover:bg-brand-charcoal transition-all disabled:opacity-50 px-6 py-2 rounded-xl shrink-0">
@@ -147,7 +147,7 @@
  </button>
 
  <!-- Trust -->
- <div class="flex items-center justify-center gap-3 text-sm text-slate-900 tracking-widest font-bold ">
+ <div class="flex items-center justify-center gap-3 text-xs text-slate-900 tracking-widest font-bold ">
  <LucideLock :size="14" />
  <span>256-bit SSL Encrypted Secure checkout</span>
  </div>
@@ -178,7 +178,7 @@
 
  <div class="relative flex items-center justify-center mb-6">
  <div class="absolute inset-x-0 h-[1px] bg-slate-100"></div>
- <span class="relative z-10 bg-white px-4 text-sm text-brand-muted tracking-widest italic font-light">Or use email</span>
+ <span class="relative z-10 bg-white px-4 text-sm text-brand-muted tracking-widest  font-light">Or use email</span>
  </div>
 
  <form @submit.prevent="handleModalLogin" class="space-y-6">
