@@ -167,7 +167,6 @@ const order = ref<any>(null);
 const paymentPolling = ref<any>(null);
 const transferConfirmed = ref(false);
 
-// Poll for bank transfer confirmation
 const startPaymentPolling = (oid: string) => {
  if (paymentPolling.value) clearInterval(paymentPolling.value);
  
