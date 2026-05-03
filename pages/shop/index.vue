@@ -41,13 +41,16 @@
 
           <!-- Sort -->
           <div>
-            <h4 class="text-[10px] font-bold  tracking-[0.3em] mb-6 text-brand-charcoal">Sort By</h4>
-            <select v-model="sortBy" class="w-full bg-white border border-gray-100 text-[10px]  tracking-widest py-3 px-4 outline-none focus:border-brand-gold transition-colors">
-              <option value="latest">Latest</option>
-              <option value="price_low">Price: Low to High</option>
-              <option value="price_high">Price: High to Low</option>
-              <option value="name">Name: A — Z</option>
-            </select>
+            <UiSelect 
+              v-model="sortBy" 
+              label="Sort By"
+              :options="[
+                { label: 'Latest', value: 'latest' },
+                { label: 'Price: Low to High', value: 'price_low' },
+                { label: 'Price: High to Low', value: 'price_high' },
+                { label: 'Name: A — Z', value: 'name' }
+              ]"
+            />
           </div>
         </aside>
 
@@ -97,7 +100,7 @@ const availabilityOptions = [
 const { pending } = await useAsyncData('products', () => fetchProducts());
 
 const filteredProducts = computed(() => {
-  let result = products.value || [];
+  let result = Array.isArray(products.value) ? products.value : (products.value?.data || []);
   if (selectedCategory.value !== 'All') {
     result = result.filter(p => p.category === selectedCategory.value);
   }

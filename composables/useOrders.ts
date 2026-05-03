@@ -46,10 +46,21 @@ export const useOrders = () => {
     }
   };
 
+  const checkPaymentStatus = async (orderId: string) => {
+    try {
+      const res = await order_api.checkPaymentStatus(orderId);
+      return res.data;
+    } catch (error: any) {
+      console.error('Payment status check failed:', error);
+      throw error;
+    }
+  };
+
   return {
     placeOrder,
     verifyOrder,
     getOrder,
     getMyOrders,
+    checkPaymentStatus,
   };
 };

@@ -1,17 +1,5 @@
 import axios, { type AxiosResponse } from "axios";
 
-// Helper function to redirect to login page
-const redirectToLogin = () => {
-  if (typeof window !== 'undefined') {
-    localStorage.removeItem('user');
-    localStorage.removeItem('token');
-    window.dispatchEvent(new Event('auth-change'));
-    if (!window.location.pathname.includes('/auth/login')) {
-      window.location.href = '/auth/login';
-    }
-  }
-};
-
 const $GATEWAY_ENDPOINT = import.meta.env.VITE_BASE_URL || 'http://localhost:4000';
 
 export const GATEWAY_ENDPOINT = axios.create({
@@ -32,7 +20,13 @@ GATEWAY_ENDPOINT.interceptors.request.use((config: any) => {
   (response: AxiosResponse) => response,
   (err: any) => {
     if (err.response?.status === 401) {
-      redirectToLogin();
+      // Only clear stale auth state — do NOT redirect.
+      // Individual pages that require auth handle their own redirects.
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('user');
+        localStorage.removeItem('token');
+        window.dispatchEvent(new Event('auth-change'));
+      }
     }
     return Promise.reject(err);
   }

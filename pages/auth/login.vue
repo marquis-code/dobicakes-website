@@ -1,51 +1,51 @@
 <template>
   <div class="section-container min-h-[80vh] flex items-center justify-center py-20">
     <div class="max-w-md w-full space-y-12">
-      <div class="text-center space-y-4">
-        <h1 class="text-4xl font-serif text-brand-charcoal ">Welcome Back</h1>
-        <p class="text-xs text-brand-gold  tracking-[0.3em]">Sign in to your account</p>
+      <div class="text-center space-y-2">
+        <h1 class="text-5xl font-serif text-brand-charcoal">Welcome Back</h1>
+        <p class="text-sm text-brand-gold tracking-[0.3em] uppercase font-bold">Sign in to your account</p>
       </div>
 
-      <div class="space-y-4">
+      <div class="space-y-6">
         <!-- Firebase Login Buttons -->
-        <button @click="handleGoogleLogin" class="w-full flex items-center justify-center gap-4 border border-gray-100 py-4 hover:bg-gray-50 transition-all rounded-sm">
-          <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" class="w-5 h-5" />
-          <span class="text-[10px] font-bold  tracking-widest">Sign in with Google</span>
+        <button @click="handleGoogleLogin" class="w-full flex items-center justify-center gap-6 border-2 border-slate-100 py-5 hover:bg-slate-50 transition-all rounded-2xl shadow-sm">
+          <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" class="w-6 h-6" />
+          <span class="text-xs font-bold tracking-widest uppercase">Sign in with Google</span>
         </button>
       </div>
 
       <div class="relative flex items-center justify-center">
-        <div class="absolute inset-x-0 h-[1px] bg-gray-100"></div>
-        <span class="relative z-10 bg-brand-cream px-4 text-[10px] text-gray-400  tracking-widest">Or login with Email</span>
+        <div class="absolute inset-x-0 h-[1px] bg-slate-100"></div>
+        <span class="relative z-10 bg-brand-cream px-6 text-[11px] text-brand-muted tracking-widest uppercase italic font-light">Or login with Email</span>
       </div>
 
-      <form @submit.prevent="handleLogin" class="space-y-6">
-        <div class="space-y-2">
-          <label class="text-[10px] font-bold  tracking-widest text-gray-400">Email Address</label>
-          <input v-model="form.email" type="email" required class="w-full border-b border-gray-200 py-3 outline-none focus:border-brand-gold transition-colors text-sm bg-transparent" />
+      <form @submit.prevent="handleLogin" class="space-y-8">
+        <div class="space-y-3">
+          <label class="text-[11px] font-bold tracking-widest text-brand-charcoal uppercase">Email Address</label>
+          <input v-model="form.email" type="email" required placeholder="john@example.com" class="w-full" />
         </div>
-        <div class="space-y-2">
-          <label class="text-[10px] font-bold  tracking-widest text-gray-400">Password</label>
+        <div class="space-y-3">
+          <label class="text-[11px] font-bold tracking-widest text-brand-charcoal uppercase">Password</label>
           <div class="relative">
-            <input v-model="form.password" :type="showPassword ? 'text' : 'password'" required class="w-full border-b border-gray-200 py-3 pr-12 outline-none focus:border-brand-gold transition-colors text-sm bg-transparent" />
-            <button @click="showPassword = !showPassword" type="button" class="absolute right-0 top-1/2 -translate-y-1/2 text-gray-300 hover:text-brand-gold transition-colors">
-              <LucideEye v-if="!showPassword" :size="16" />
-              <LucideEyeOff v-else :size="16" />
+            <input v-model="form.password" :type="showPassword ? 'text' : 'password'" required placeholder="••••••••" class="w-full pr-14" />
+            <button @click="showPassword = !showPassword" type="button" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-300 hover:text-brand-gold transition-colors">
+              <LucideEye v-if="!showPassword" :size="20" />
+              <LucideEyeOff v-else :size="20" />
             </button>
           </div>
         </div>
         
         <div class="flex justify-end">
-          <NuxtLink to="/auth/forgot-password" class="text-[10px] text-brand-gold  tracking-widest hover:text-brand-charcoal transition-colors">Forgot Password?</NuxtLink>
+          <NuxtLink to="/auth/forgot-password" class="text-[11px] text-brand-gold tracking-widest hover:text-brand-charcoal transition-colors uppercase font-bold">Forgot Password?</NuxtLink>
         </div>
 
-        <button :disabled="loading" class="btn-primary w-full !py-5  tracking-[0.3em] text-[10px] font-bold">
+        <button :disabled="loading" class="btn-premium w-full !py-3 shadow-xl shadow-brand-charcoal/10">
           <span v-if="loading" class="animate-pulse">Signing in...</span>
           <span v-else>Login</span>
         </button>
       </form>
 
-      <p class="text-center text-[10px]  tracking-widest text-gray-400">
+      <p class="text-center text-xs tracking-widest text-brand-muted uppercase">
         Don't have an account? 
         <NuxtLink to="/auth/register" class="text-brand-gold font-bold hover:underline">Register here</NuxtLink>
       </p>

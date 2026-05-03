@@ -3,9 +3,9 @@ export const useProducts = () => {
   const { fetchApi } = useApiFactory();
 
   const fetchProducts = async (category?: string) => {
-    const url = category ? `/products?category=${category}` : '/products';
+    const url = category ? `/products?category=${category}&limit=50` : '/products?limit=50';
     const response: any = await fetchApi(url);
-    products.value = response;
+    products.value = response.data || [];
     return response;
   };
 

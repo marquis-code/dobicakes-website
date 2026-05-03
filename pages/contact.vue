@@ -29,34 +29,35 @@
         </div>
 
         <!-- Form -->
-        <div class="bg-white p-12 shadow-2xl space-y-8">
-          <h3 class="text-xl font-serif text-brand-charcoal ">Send a Message</h3>
-          <form @submit.prevent="handleSubmit" class="space-y-6">
-            <div class="grid grid-cols-2 gap-6">
-              <div class="space-y-2">
-                <label class="text-[9px] font-bold  tracking-widest text-gray-400">Full Name</label>
-                <input v-model="form.name" type="text" required class="w-full border-b border-gray-100 py-3 outline-none focus:border-brand-gold transition-colors text-xs" />
+        <div class="bg-white p-12 shadow-2xl space-y-10 rounded-2xl border border-slate-100">
+          <div class="space-y-2">
+            <h3 class="text-2xl font-serif text-brand-charcoal">Send a Message</h3>
+            <p class="text-[11px] text-brand-muted tracking-widest uppercase italic font-light">We usually respond within 24 hours</p>
+          </div>
+          <form @submit.prevent="handleSubmit" class="space-y-8">
+            <div class="space-y-6">
+              <div class="space-y-3">
+                <label class="text-[10px] font-bold tracking-widest text-brand-charcoal uppercase">Full Name</label>
+                <input v-model="form.name" type="text" required placeholder="John Doe" class="w-full" />
               </div>
-              <div class="space-y-2">
-                <label class="text-[9px] font-bold  tracking-widest text-gray-400">Email Address</label>
-                <input v-model="form.email" type="email" required class="w-full border-b border-gray-100 py-3 outline-none focus:border-brand-gold transition-colors text-xs" />
+              <div class="space-y-3">
+                <label class="text-[10px] font-bold tracking-widest text-brand-charcoal uppercase">Email Address</label>
+                <input v-model="form.email" type="email" required placeholder="john@example.com" class="w-full" />
               </div>
             </div>
-            <div class="space-y-2">
-              <label class="text-[9px] font-bold  tracking-widest text-gray-400">Subject</label>
-              <select v-model="form.subject" class="w-full border-b border-gray-100 py-3 outline-none focus:border-brand-gold transition-colors text-xs bg-transparent">
-                <option>Custom Cake Inquiry</option>
-                <option>Order Support</option>
-                <option>Partnership</option>
-                <option>Other</option>
-              </select>
+            <div class="space-y-3">
+              <label class="text-[10px] font-bold tracking-widest text-brand-charcoal uppercase">Subject</label>
+              <UiSelect 
+                v-model="form.subject" 
+                :options="['Custom Cake Inquiry', 'Order Support', 'Partnership', 'Other']"
+              />
             </div>
-            <div class="space-y-2">
-              <label class="text-[9px] font-bold  tracking-widest text-gray-400">Message</label>
-              <textarea v-model="form.message" rows="5" required class="w-full border-b border-gray-100 py-3 outline-none focus:border-brand-gold transition-colors text-xs resize-none"></textarea>
+            <div class="space-y-3">
+              <label class="text-[10px] font-bold tracking-widest text-brand-charcoal uppercase">Message</label>
+              <textarea v-model="form.message" rows="5" required placeholder="Tell us more about your request..." class="w-full resize-none"></textarea>
             </div>
-            <button :disabled="loading" class="w-full py-5 bg-brand-charcoal text-white text-[10px] font-bold  tracking-[0.4em] transition-all hover:bg-brand-gold">
-              {{ loading ? 'Sending...' : 'Send Inquiry' }}
+            <button :disabled="loading" class="btn-premium w-full !py-3 shadow-xl shadow-brand-charcoal/10">
+              {{ loading ? 'Sending Enquiry...' : 'Send Message' }}
             </button>
           </form>
         </div>
@@ -66,6 +67,8 @@
 </template>
 
 <script setup lang="ts">
+const { success, error: toastError } = useToast();
+const { fetchApi } = useApiFactory();
 const loading = ref(false);
 const form = ref({
   name: '',
@@ -87,11 +90,29 @@ const locations = [
 ];
 
 const handleSubmit = async () => {
+  if (!form.value.name || !form.value.email || !form.value.message) {
+    toastError('Please fill in all required fields.');
+    return;
+  }
   loading.value = true;
-  await new Promise(r => setTimeout(r, 1000));
-  alert('Thank you! Your message has been sent. We will get back to you shortly.');
-  loading.value = false;
-  form.value = { name: '', email: '', subject: 'Custom Cake Inquiry', message: '' };
+  try {
+    await fetchApi('/enquiries', {
+      method: 'POST',
+      body: {
+        name: form.value.name,
+        email: form.value.email,
+        subject: form.value.subject,
+        message: form.value.message,
+      },
+    });
+    success('Thank you! Your message has been sent. We will get back to you shortly.');
+    form.value = { name: '', email: '', subject: 'Custom Cake Inquiry', message: '' };
+  } catch (err: any) {
+    console.error('Contact form error:', err);
+    toastError(err?.data?.message || 'Something went wrong. Please try again.');
+  } finally {
+    loading.value = false;
+  }
 };
 
 definePageMeta({ layout: 'default' });

@@ -12,16 +12,17 @@ export default {
     extend: {
       colors: {
         brand: {
-          gold: '#C59D43',
-          'gold-light': '#D4AF37',
-          'gold-dark': '#A67C00',
-          charcoal: '#212121',
-          cream: '#F9F6F0',
+          gold: '#D4AF37',
+          'gold-light': '#F4E4C1',
+          'gold-dark': '#B8860B',
+          charcoal: '#1A1A1A',
+          cream: '#FAF9F6',
+          muted: '#666666',
         }
       },
       fontFamily: {
-        serif: ['"Playfair Display"', 'serif'],
-        sans: ['Inter', 'sans-serif'],
+        serif: ['"Cormorant Garamond"', 'serif'],
+        sans: ['Montserrat', 'sans-serif'],
       },
     },
   },

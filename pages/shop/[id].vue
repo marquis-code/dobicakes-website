@@ -108,7 +108,7 @@ import { LucideCheck } from 'lucide-vue-next';
 const route = useRoute();
 const { getProduct } = useProducts();
 const { addToCart } = useCart();
-const { showToast } = useCustomToast();
+const { success, error: toastError } = useToast();
 
 const { data: product } = await useAsyncData(`product-${route.params.id}`, () => getProduct(route.params.id));
 
@@ -142,7 +142,7 @@ const totalPrice = computed(() => {
 
 const handleAddToCart = () => {
   if (!selection.value.flavor || !selection.value.size) {
-    alert('Please select a flavor and size.');
+    toastError('Please select a flavor and size.');
     return;
   }
   
@@ -153,7 +153,7 @@ const handleAddToCart = () => {
   };
   
   addToCart(cartItem, qty.value);
-  alert(`${product.value.name} added to your collection!`);
+  success(`${product.value.name} added to your collection!`);
 };
 
 definePageMeta({ layout: 'default' });

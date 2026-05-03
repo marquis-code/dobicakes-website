@@ -28,8 +28,7 @@
         </div>
       </div>
 
-      <div class="prose prose-slate prose-lg max-w-none text-brand-charcoal/80 leading-relaxed first-letter:text-5xl first-letter:font-serif first-letter:text-brand-gold first-letter:mr-3 first-letter:float-left">
-        {{ post.content }}
+      <div class="prose prose-slate prose-lg max-w-none text-brand-charcoal/80 leading-relaxed artisanal-content" v-html="post.content">
       </div>
       
       <div class="mt-20 pt-12 border-t border-gray-100 flex justify-between items-center text-[10px]  tracking-widest text-gray-400 font-bold">
@@ -54,3 +53,18 @@ const { data: post } = await useAsyncData(`post-${route.params.id}`, () => fetch
 
 definePageMeta({ layout: 'default' });
 </script>
+
+<style>
+.artisanal-content {
+  @apply font-sans;
+}
+.artisanal-content p:first-of-type::first-letter {
+  @apply text-6xl font-serif text-brand-gold float-left mr-4 leading-[0.8] mt-2;
+}
+.artisanal-content h1 { @apply text-3xl font-serif text-brand-charcoal mb-8 mt-12; }
+.artisanal-content h2 { @apply text-2xl font-serif text-brand-charcoal mb-6 mt-10; }
+.artisanal-content blockquote { @apply border-l-2 border-brand-gold pl-8 italic text-brand-muted text-xl my-12 bg-brand-cream/20 py-4 rounded-r-2xl; }
+.artisanal-content img { @apply rounded-2xl shadow-2xl my-16 border border-gray-100; }
+.artisanal-content ul { @apply list-disc pl-8 my-8 space-y-4; }
+.artisanal-content ol { @apply list-decimal pl-8 my-8 space-y-4; }
+</style>

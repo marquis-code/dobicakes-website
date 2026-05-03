@@ -43,10 +43,30 @@
         <div>
           <h4 class="font-bold  tracking-widest text-sm mb-6">Newsletter</h4>
           <p class="text-gray-400 text-sm mb-4">Subscribe to receive updates and exclusive offers.</p>
-          <div class="flex gap-2">
-            <input type="email" placeholder="Email Address" class="bg-white/10 border border-white/10 text-white px-4 py-2 w-full outline-none focus:border-brand-gold transition-colors text-sm" />
-            <button class="bg-brand-gold text-white px-4 py-2 hover:bg-brand-gold-dark transition-colors font-medium text-xs  tracking-widest">Join</button>
+          
+          <div v-if="subscribed" class="flex items-center gap-2 text-emerald-400 text-sm font-medium animate-fade-in">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+            <span>You're subscribed!</span>
           </div>
+          
+          <form v-else @submit.prevent="handleSubscribe" class="flex gap-2">
+            <input 
+              v-model="newsletterEmail" 
+              type="email" 
+              required
+              placeholder="Email Address" 
+              class="bg-white/10 border border-white/10 text-white px-4 py-2 w-full outline-none focus:border-brand-gold transition-colors text-sm rounded-lg" 
+            />
+            <button 
+              type="submit"
+              :disabled="subscribing"
+              class="bg-brand-gold text-white px-4 py-2 hover:bg-brand-gold-dark transition-colors font-medium text-xs tracking-widest rounded-lg disabled:opacity-50 shrink-0"
+            >
+              <span v-if="subscribing" class="animate-pulse">...</span>
+              <span v-else>Join</span>
+            </button>
+          </form>
+          <p v-if="subscribeError" class="text-rose-400 text-xs mt-2">{{ subscribeError }}</p>
         </div>
       </div>
       <div class="section-container !py-8 border-t border-white/10 mt-12 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-500  tracking-widest">
@@ -60,3 +80,30 @@
     </footer>
   </div>
 </template>
+
+<script setup lang="ts">
+const { fetchApi } = useApiFactory();
+
+const newsletterEmail = ref('');
+const subscribing = ref(false);
+const subscribed = ref(false);
+const subscribeError = ref('');
+
+const handleSubscribe = async () => {
+  if (!newsletterEmail.value) return;
+  subscribing.value = true;
+  subscribeError.value = '';
+  try {
+    await fetchApi('/marketing/subscribe', {
+      method: 'POST',
+      body: { email: newsletterEmail.value, source: 'footer' },
+    });
+    subscribed.value = true;
+    newsletterEmail.value = '';
+  } catch (err: any) {
+    subscribeError.value = err?.data?.message || 'Something went wrong. Please try again.';
+  } finally {
+    subscribing.value = false;
+  }
+};
+</script>

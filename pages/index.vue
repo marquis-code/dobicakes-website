@@ -15,7 +15,8 @@
         <p class=" tracking-[0.5em] text-[10px] md:text-xs font-bold animate-fade-in text-brand-gold-light drop-shadow-sm">
           {{ displayBanners[currentSlide]?.subtitle || 'Artisan Bakery • Est. 2024' }}
         </p>
-        <h1 class="text-5xl md:text-8xl lg:text-9xl font-serif leading-tight tracking-tighter animate-slide-up drop-shadow-2xl">
+        <div v-if="displayBanners[currentSlide]?.content" class="rich-banner-content animate-slide-up" v-html="displayBanners[currentSlide].content"></div>
+        <h1 v-else class="text-5xl md:text-8xl lg:text-9xl font-serif leading-tight tracking-tighter animate-slide-up drop-shadow-2xl">
           <span class="block italic font-light opacity-90">{{ displayBanners[currentSlide]?.titlePart1 || 'The Art of' }}</span>
           <span class="block font-medium -mt-2 md:-mt-6">{{ displayBanners[currentSlide]?.titlePart2 || 'Sweetness' }}</span>
         </h1>
@@ -195,7 +196,7 @@ const features = [
 
 const categories = [
   { name: 'Birthday', image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&q=80&w=400' },
-  { name: 'Wedding', image: 'https://images.unsplash.com/photo-1535254973040-607b474cb80d?auto=format&fit=crop&q=80&w=400' },
+  { name: 'Wedding', image: '/img/wedding-collection.png' },
   { name: 'Cupcakes', image: 'https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&q=80&w=400' },
   { name: 'Brownies', image: 'https://images.unsplash.com/photo-1606312619070-d48b4c652a52?auto=format&fit=crop&q=80&w=400' },
   { name: 'Cheesecake', image: 'https://images.unsplash.com/photo-1533134242443-d4fd215305ad?auto=format&fit=crop&q=80&w=400' },
@@ -229,4 +230,20 @@ definePageMeta({ layout: 'default' });
 .ease-out-expo {
   transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
 }
+
+.rich-banner-content :deep(h1) {
+  @apply text-5xl md:text-8xl lg:text-9xl font-serif leading-tight tracking-tighter drop-shadow-2xl;
+}
+.rich-banner-content :deep(p) {
+  @apply text-lg md:text-xl font-light opacity-90 tracking-widest uppercase;
+}
+.rich-banner-content :deep(strong) {
+  @apply text-brand-gold;
+}
+
+/* Aggressive readability fixes */
+:deep(.text-[10px]) { font-size: 0.85rem !important; }
+:deep(.text-[11px]) { font-size: 0.95rem !important; }
+:deep(.text-xs) { font-size: 1rem !important; }
+:deep(.text-sm) { font-size: 1.1rem !important; }
 </style>

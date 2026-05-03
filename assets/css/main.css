@@ -24,16 +24,26 @@ h1, h2, h3, h4, .font-serif {
     --brand-gold-dark: #B8860B;
     --brand-charcoal: #1A1A1A;
     --brand-cream: #FAF9F6;
-    --brand-muted: #8E8E8E;
+    --brand-muted: #666666; /* Darkened for better contrast */
   }
 
   body {
     @apply font-sans antialiased bg-brand-cream text-brand-charcoal;
     scroll-behavior: smooth;
+    font-size: 16px; /* Base font size increased */
   }
 
   h1, h2, h3, h4, .font-heading {
-    @apply font-serif font-medium;
+    @apply font-serif font-medium leading-tight;
+  }
+
+  p {
+    @apply leading-relaxed;
+  }
+
+  /* Global Input Styles for Visibility */
+  input, textarea, select {
+    @apply border border-slate-300 bg-white px-4 py-3 text-sm focus:border-brand-gold focus:ring-1 focus:ring-brand-gold outline-none transition-all duration-300;
   }
 }
 
@@ -49,7 +59,7 @@ h1, h2, h3, h4, .font-serif {
 
   /* Handcrafted Premium Buttons */
   .btn-premium {
-    @apply inline-flex items-center justify-center px-10 py-4 text-xs font-bold  tracking-[0.2em] transition-all duration-500 relative overflow-hidden active:scale-95;
+    @apply inline-flex items-center justify-center px-10 py-4 text-sm font-bold tracking-[0.2em] transition-all duration-500 relative overflow-hidden active:scale-95 ;
     background-color: var(--brand-charcoal);
     color: white;
     border: 1px solid var(--brand-charcoal);
@@ -60,7 +70,7 @@ h1, h2, h3, h4, .font-serif {
   }
 
   .btn-gold {
-    @apply inline-flex items-center justify-center px-10 py-4 text-xs font-bold  tracking-[0.2em] transition-all duration-500 active:scale-95;
+    @apply inline-flex items-center justify-center px-10 py-4 text-sm font-bold tracking-[0.2em] transition-all duration-500 active:scale-95 ;
     background-color: var(--brand-gold);
     color: white;
   }
@@ -71,13 +81,20 @@ h1, h2, h3, h4, .font-serif {
 
   /* Modern Card */
   .interactive-card {
-    @apply glass p-8 transition-all duration-500 hover:shadow-2xl hover:shadow-brand-gold/10 hover:translate-y-[-8px] relative overflow-hidden;
+    @apply glass p-10 transition-all duration-500 hover:shadow-2xl hover:shadow-brand-gold/10 hover:translate-y-[-8px] relative overflow-hidden rounded-xl;
   }
 
   .section-container {
-    @apply max-w-7xl mx-auto px-6 py-20;
+    @apply max-w-7xl mx-auto px-6 py-24;
   }
 }
+
+/* Typography Overrides for Visibility */
+.text-xs { font-size: 0.85rem !important; }
+.text-[10px] { font-size: 0.75rem !important; letter-spacing: 0.1em !important; }
+.text-[11px] { font-size: 0.8rem !important; }
+.text-sm { font-size: 0.95rem !important; }
+.tracking-widest { letter-spacing: 0.2em !important; }
 
 .text-gradient-gold {
   @apply bg-clip-text text-transparent bg-gradient-to-r from-brand-gold to-brand-gold-dark;
@@ -85,12 +102,13 @@ h1, h2, h3, h4, .font-serif {
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 8px;
 }
 ::-webkit-scrollbar-track {
   @apply bg-brand-cream;
 }
 ::-webkit-scrollbar-thumb {
-  @apply bg-brand-gold/30 rounded-full hover:bg-brand-gold/50 transition-colors;
+  @apply bg-brand-gold/40 rounded-full hover:bg-brand-gold/60 transition-colors;
 }
+
 

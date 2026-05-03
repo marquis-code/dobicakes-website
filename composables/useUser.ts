@@ -34,7 +34,7 @@ export const useUser = () => {
         if (typeof window !== 'undefined') {
             localStorage.removeItem('user')
             localStorage.removeItem('token')
-            window.location.href = '/auth/login'
+            window.location.href = '/'
         }
     }
 

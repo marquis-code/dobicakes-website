@@ -21,19 +21,39 @@
       </div>
 
       <!-- Bank Transfer Alert if applicable -->
-      <div v-if="order?.paymentStatus === 'PENDING' && order?.paymentMethod === 'BANK_TRANSFER'" class="bg-brand-charcoal p-8 space-y-6">
+      <div v-if="order?.paymentMethod === 'BANK_TRANSFER' && order?.status !== 'PAID' && !transferConfirmed" class="bg-brand-charcoal p-8 space-y-6 rounded-2xl">
         <div class="flex justify-between items-center border-b border-white/10 pb-4">
           <p class="text-[10px]  tracking-[0.3em] text-brand-gold font-bold italic">Bank Transfer Required</p>
-          <span class="text-[9px]  tracking-widest bg-brand-gold/20 text-brand-gold px-3 py-1 rounded-full">Virtual Account</span>
+          <span class="text-[9px]  tracking-widest bg-amber-500/20 text-amber-400 px-3 py-1 rounded-full flex items-center gap-2">
+            <span class="w-1.5 h-1.5 bg-amber-400 rounded-full animate-pulse"></span>
+            Awaiting Transfer
+          </span>
         </div>
-        <div class="space-y-4">
+        <div v-if="order.virtualAccount" class="space-y-4">
           <div v-for="(val, label) in { 'Bank': order.virtualAccount?.bankName, 'Account Number': order.virtualAccount?.accountNumber, 'Account Name': order.virtualAccount?.accountName }" :key="label" class="flex justify-between items-center text-[10px]  tracking-widest">
             <span class="text-gray-400">{{ label }}</span>
             <span class="text-white font-bold">{{ val }}</span>
           </div>
-          <div class="border-t border-white/10 pt-4 flex justify-between items-center">
-            <span class="text-gray-400 text-[10px]  tracking-widest">Amount Due</span>
-            <span class="text-2xl font-serif text-brand-gold">₦{{ order.totalAmount.toLocaleString() }}</span>
+        </div>
+        <p v-else class="text-[11px] text-gray-400 tracking-widest leading-relaxed">
+          Your order has been placed. Please complete your transfer and we'll confirm it automatically. This page will update once we receive your payment.
+        </p>
+        <div class="border-t border-white/10 pt-4 flex justify-between items-center">
+          <span class="text-gray-400 text-[10px]  tracking-widest">Amount Due</span>
+          <span class="text-2xl font-serif text-brand-gold">₦{{ order.totalAmount.toLocaleString() }}</span>
+        </div>
+        <p class="text-[9px] text-gray-500 tracking-widest text-center animate-pulse">Checking for payment every 10 seconds...</p>
+      </div>
+
+      <!-- Bank Transfer Confirmed -->
+      <div v-if="transferConfirmed || (order?.paymentMethod === 'BANK_TRANSFER' && order?.status === 'PAID')" class="bg-emerald-50 border border-emerald-200 p-8 space-y-4 rounded-2xl">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center">
+            <LucideCheck class="text-white" :size="16" />
+          </div>
+          <div>
+            <p class="text-sm font-bold text-emerald-800 tracking-widest">Transfer Received!</p>
+            <p class="text-[10px] text-emerald-600 tracking-widest">Your payment has been confirmed and your order is being processed.</p>
           </div>
         </div>
       </div>
@@ -136,7 +156,7 @@ import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 
 const route = useRoute();
-const { verifyOrder, getOrder } = useOrders();
+const { verifyOrder, getOrder, checkPaymentStatus } = useOrders();
 const { showToast } = useCustomToast();
 
 const verifying = ref(true);
@@ -144,6 +164,32 @@ const success = ref(false);
 const downloading = ref(false);
 const orderId = ref(route.query.id || '');
 const order = ref<any>(null);
+const paymentPolling = ref<any>(null);
+const transferConfirmed = ref(false);
+
+// Poll for bank transfer confirmation
+const startPaymentPolling = (oid: string) => {
+  if (paymentPolling.value) clearInterval(paymentPolling.value);
+  
+  paymentPolling.value = setInterval(async () => {
+    try {
+      const result = await checkPaymentStatus(oid);
+      if (result?.status === 'PAID') {
+        transferConfirmed.value = true;
+        order.value = result.order || order.value;
+        order.value.status = 'PAID';
+        clearInterval(paymentPolling.value);
+        showToast({ title: 'Payment Confirmed!', message: 'Your bank transfer has been received.', toastType: 'success' });
+      }
+    } catch (e) {
+      // Silent retry
+    }
+  }, 10000); // Poll every 10 seconds
+};
+
+onUnmounted(() => {
+  if (paymentPolling.value) clearInterval(paymentPolling.value);
+});
 
 const generatePDF = async () => {
   if (downloading.value) return;
@@ -204,7 +250,13 @@ onMounted(async () => {
   } else if (id) {
     try {
       order.value = await getOrder(String(id));
+      orderId.value = String(id);
       success.value = true;
+
+      // Start polling if this is a pending bank transfer
+      if (order.value?.paymentMethod === 'BANK_TRANSFER' && order.value?.status !== 'PAID') {
+        startPaymentPolling(String(id));
+      }
     } catch (error) {
       success.value = false;
     } finally {
